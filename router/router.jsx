@@ -3,12 +3,12 @@ import { createBrowserRouter } from "react-router-dom";
 import PanelAdmin from "../src/pages/panelAdmin";
 import ConsultaPDF from "../src/pages/consultaPDF";
 import ValidacionAntecedente from "../src/pages/validacionAntecedente";
-import Login from "../src/pages/login"
+import Index from "../src/pages";
 const router = createBrowserRouter([
     
     {
         path:"/",
-        element:<Login/>
+        element:<Index/>
     },
     {
         path:"/panelAdmin",

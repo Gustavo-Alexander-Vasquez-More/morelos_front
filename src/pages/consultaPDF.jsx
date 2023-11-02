@@ -5,7 +5,7 @@ import permisos_actions from '../redux/actions/permisosActions.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Link as Anchor } from 'react-router-dom';
-import permiso from '../../public/permiso.png'
+
 const consultaPDF= () => {
   const dispatch = useDispatch();
   const  folioParam  = useParams();
@@ -25,12 +25,7 @@ const consultaPDF= () => {
   const modelo=model.toString()
   const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
   const styles = StyleSheet.create({
-    image: {
-      width: '100vw', // Ancho de la imagen
-      height: '100vh',
-      position:'relative', // Alto de la imagen
-      display:'none'
-    },
+  
     expedicion:{
       position:'absolute',
       transform: 'rotate(90deg)',
@@ -69,7 +64,7 @@ const consultaPDF= () => {
         document={<Document title={`${folio}.pdf`} > 
           <Page size="A4">
           <View >
-    <Image style={styles.image} src={permiso}/>
+    
     <View style={styles.ConteinerMarca}>
     <Text style={styles.expedicion}>{expedicion}</Text>
     <Text style={styles.marca}>{marca.toUpperCase()}</Text>
@@ -100,7 +95,7 @@ return (
 <Document title={`${folio}.pdf`} >
 <Page   size={'A4'} >
     <View >
-    <Image style={styles.image} src={permiso}/>
+    
     <View style={styles.ConteinerMarca}>
     <Text style={styles.expedicion}>{expedicion}</Text>
     <Text style={styles.marca}>{marca.toUpperCase()}</Text>

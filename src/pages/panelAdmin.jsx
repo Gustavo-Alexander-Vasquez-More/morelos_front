@@ -30,13 +30,13 @@ useEffect(() => {
 const userToken = localStorage.getItem('token');
   
   if (!userToken) {
-  navigate('/permisos');
+  navigate('/');
   }
   }, [navigate]);
 async function LogOut() {
 
   try {
-    await axios.post('http://localhost:8086/api/admins/logout', null, {
+    await axios.post('https://backmorelos-production.up.railway.app/api/admins/logout', null, {
       headers: { Authorization: `Bearer ${token}` },
     });
 localStorage.removeItem('token');
@@ -54,7 +54,7 @@ localStorage.removeItem('token');
     });
 
 await new Promise(resolve => setTimeout(resolve, 1000))
-navigate('/permisos');
+navigate('/');
 } catch (error) {
     Swal.fire({
       icon: 'error',

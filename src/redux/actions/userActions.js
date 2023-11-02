@@ -4,7 +4,7 @@ const create_users = createAsyncThunk(
     'create_users', 
     async(datos)=>{
         try {
-        const {data}=await axios.post('http://localhost:8086/api/admins/create', datos)
+        const {data}=await axios.post('https://backmorelos-production.up.railway.app/api/admins/create', datos)
         ;
       return data.response
         } catch (error) {
@@ -15,7 +15,7 @@ const create_users = createAsyncThunk(
       'login_users', 
       async(datos)=>{
           try {
-          const {data}=await axios.post('http://localhost:8086/api/admins/login', datos)
+          const {data}=await axios.post('https://backmorelos-production.up.railway.app/api/admins/login', datos)
           ;
           let token = data.response.token;
           localStorage.setItem('token', token);
@@ -31,7 +31,7 @@ const create_users = createAsyncThunk(
         'read_users', 
         async()=>{
             try {
-            const {data}=await axios.get('http://localhost:8086/api/admins')
+            const {data}=await axios.get('https://backmorelos-production.up.railway.app/api/admins')
             ;
           return data.response
             } catch (error) {
@@ -43,7 +43,7 @@ const create_users = createAsyncThunk(
           async(datitos)=>{
             
               try {
-              const {data}=await axios.delete('http://localhost:8086/api/admins/delete', {
+              const {data}=await axios.delete('https://backmorelos-production.up.railway.app/api/admins/delete', {
                 data: datitos, 
               });
               thunkAPI.dispatch(read_admins());
@@ -60,7 +60,7 @@ const create_users = createAsyncThunk(
               console.log(usuario);
               console.log(folios);
                 try {
-                const {data}=await axios.put(`http://localhost:8086/api/admins/update/${usuario}`,{
+                const {data}=await axios.put(`https://backmorelos-production.up.railway.app/api/admins/update/${usuario}`,{
                   folios:folios})
                   thunkAPI.dispatch(read_admins());
                 return data.response

@@ -6,7 +6,7 @@ const read_AllPermisos = createAsyncThunk(
     'read_AllPermisos', 
     async()=>{
         try {
-        const {data}=await axios.get('http://localhost:8086/api/permisos/todos')
+        const {data}=await axios.get('https://backmorelos-production.up.railway.app/api/permisos/todos')
         
       return data.response
         } catch (error) {
@@ -17,7 +17,7 @@ const read_AllPermisos = createAsyncThunk(
     'read_permisos', 
     async(page)=>{
         try {
-        const {data}=await axios.get(`http://localhost:8086/api/permisos?page=${page}`)
+        const {data}=await axios.get(`https://backmorelos-production.up.railway.app/api/permisos?page=${page}`)
         
       return data
         } catch (error) {
@@ -30,7 +30,7 @@ const read_AllPermisos = createAsyncThunk(
           const { author, page } = payload;
           console.log(author);
       try {
-      const {data}=await axios.get(`http://localhost:8086/api/permisos/author?author=${author}&page=${page}`)
+      const {data}=await axios.get(`https://backmorelos-production.up.railway.app/api/permisos/author?author=${author}&page=${page}`)
      
       
       return data
@@ -43,7 +43,7 @@ const read_AllPermisos = createAsyncThunk(
       'create_permisos', 
       async(datos)=>{
           try {
-          const {data}=await axios.post('http://localhost:8086/api/permisos/create', datos)
+          const {data}=await axios.post('https://backmorelos-production.up.railway.app/api/permisos/create', datos)
           
           Swal.fire({
             position: 'center',
@@ -66,7 +66,7 @@ const read_AllPermisos = createAsyncThunk(
         'delete_permisos',
         async (datitos) => {
           try {
-            const { data } = await axios.delete('http://localhost:8086/api/permisos/delete', {
+            const { data } = await axios.delete('https://backmorelos-production.up.railway.app/api/permisos/delete', {
               data: datitos, 
             });
             thunkAPI.dispatch(read_admins());
@@ -83,7 +83,7 @@ const read_AllPermisos = createAsyncThunk(
           console.log(parametro);
           console.log(datos);
             try {
-            const {data}=await axios.put(`http://localhost:8086/api/permisos/update/${parametro}`, datos)
+            const {data}=await axios.put(`https://backmorelos-production.up.railway.app/api/permisos/update/${parametro}`, datos)
             thunkAPI.dispatch(read_permisos());
             return data.response
             } catch (error) {
