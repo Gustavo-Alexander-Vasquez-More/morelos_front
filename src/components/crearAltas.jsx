@@ -177,69 +177,72 @@ async function crearAltas(){
   }
 }
   return (
-    <div className='w-full h-[90vh] flex-col'>
-      <div className='w-full h-[75vh] flex'>
+    <div className='w-full lg:h-[110vh] h-auto  flex-col'>
+      <div className='w-full h-[5vh] flex justify-center items-center'>
+        <p className=' font-bold text-[1.5rem]'>Crear permisos</p>
+      </div>
+      <div className='w-full lg:h-[80vh] h-auto flex lg:flex-row flex-col'>
         {/*ESTA ES LA PRIMERA SECCION*/}
-        <div className='w-[50%] h-[75vh]  px-[5rem] flex flex-col gap-5 py-[3rem]'>
+        <div className='lg:w-[50%] w-full lg:h-[80vh] h-auto px-[1rem]  lg:px-[5rem] flex flex-col gap-5 py-[3rem]'>
         <div className='w-full h-auto flex flex-col gap-2'>
           <p>Propietario</p>
-          <input ref={inputProp} onChange={captureProp} className='w-[50%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="text" name="" id=""  placeholder='Nombre completo'/>
+          <input ref={inputProp} onChange={captureProp} className='lg:w-[50%] w-[80%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="text" name="" id=""  placeholder='Nombre completo'/>
         </div>
         <div className='w-full h-auto flex flex-col gap-2'>
           <p>Delegacion que expide</p>
-          <input ref={inputDelegacion} onChange={captureDele} className='w-[50%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="text" name="" id=""  placeholder='Delegación'/>
+          <input ref={inputDelegacion} onChange={captureDele} className='lg:w-[50%] w-[80%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="text" name="" id=""  placeholder='Delegación'/>
         </div>
         <div className='w-full h-auto flex-col gap-2'>
           <p>Marca</p>
-          <input ref={inputMarca} onChange={captureMarca} className='w-[50%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="text" name="" id=""  placeholder='Marca del vehiculo'/>
+          <input ref={inputMarca} onChange={captureMarca} className='lg:w-[50%] w-[80%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="text" name="" id=""  placeholder='Marca del vehiculo'/>
         </div>
         <div className='w-full h-auto flex-col gap-2'>
           <p>Submarca</p>
-          <input ref={inputSubMarca} onChange={captureSubMarca} className='w-[50%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="text" name="" id=""  placeholder='Submarca del vehiculo'/>
+          <input ref={inputSubMarca} onChange={captureSubMarca} className='lg:w-[50%] w-[80%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="text" name="" id=""  placeholder='Submarca del vehiculo'/>
         </div>
         <div className='w-full h-auto flex-col gap-2'>
           <p>Modelo</p>
-          <input ref={inputModelo} onChange={captureModelo} className='w-[50%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="text" name="" id=""  placeholder='Modelo del vehiculo'/>
+          <input ref={inputModelo} onChange={captureModelo} className='lg:w-[50%] w-[80%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="text" name="" id=""  placeholder='Modelo del vehiculo'/>
         </div>
         <div className='w-full h-auto flex flex-col gap-2'>
           <p>Capacidad</p>
-          <input ref={inputCapacidad} onChange={captureCapacidad} className='w-[50%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="text" name="" id=""  placeholder='Capacidad del vehiculo'/>
+          <input ref={inputCapacidad} onChange={captureCapacidad} className='lg:w-[50%] w-[80%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="text" name="" id=""  placeholder='Capacidad del vehiculo'/>
         </div>
         </div>
         {/*ESTA ES LA SEGUNDA SECCION*/}
-        <div className='w-[50%] h-[75vh]  px-[5rem] flex flex-col gap-5 py-[3rem]'>
+        <div className='lg:w-[50%] w-full lg:h-[90vh] h-auto px-[1rem]  lg:px-[5rem] flex flex-col gap-5 py-[3rem]'>
         <div className='w-full h-auto flex flex-col gap-2'>
           <p>Linea</p>
-          <input ref={inputLinea} onChange={captureLinea} className='w-[50%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="text" name="" id=""  placeholder='Escriba el N° de Serie'/>
+          <input ref={inputLinea} onChange={captureLinea} className='lg:w-[50%] w-[80%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="text" name="" id=""  placeholder='Escriba el N° de Serie'/>
         </div>
         <div className='w-full h-auto flex flex-col gap-2'>
           <p>N° de Serie</p>
-          <input ref={inputSerie} onChange={captureSerie} className='w-[50%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="text" name="" id=""  placeholder='Escriba el N° de Serie'/>
+          <input ref={inputSerie} onChange={captureSerie} className='lg:w-[50%] w-[80%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="text" name="" id=""  placeholder='Escriba el N° de Serie'/>
         </div>
         <div className='w-full h-auto flex flex-col gap-2'>
           <p>N° de Motor</p>
-          <input ref={inputMotor} onChange={captureMotor} className='w-[50%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="number" name="" id=""  placeholder='N° de Motor'/>
+          <input ref={inputMotor} onChange={captureMotor} className='lg:w-[50%] w-[80%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="number" name="" id=""  placeholder='N° de Motor'/>
         </div>
         <div className='w-full h-auto flex flex-col gap-2'>
           <p>Expedicion</p>
-          <input value={expedicion}  className='w-[50%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="text" name="" id=""  placeholder='Submarca del vehiculo'/>
+          <input value={expedicion}  className='lg:w-[50%] w-[80%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="text" name="" id=""  placeholder='Submarca del vehiculo'/>
         </div>
         <div className='w-full h-auto flex flex-col gap-2'>
           <p>Vigencia</p>
-          <input value={vigencia} className='w-[50%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="text" name="" id=""  placeholder='Modelo del vehiculo'/>
+          <input value={vigencia} className='lg:w-[50%] w-[80%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="text" name="" id=""  placeholder='Modelo del vehiculo'/>
         </div>
         <div className='w-full h-auto flex flex-col gap-2'>
-          <button onClick={folioactual} className='text-center bg-[purple] px-[0.5rem] py-[0.3rem] w-[30%] text-white rounded-[5px]'>Generar N° de folio</button>
+          <button onClick={folioactual} className='text-center bg-[#3d0e3d] px-[0.5rem] py-[0.3rem] lg:w-[30%] w-[80%] text-white rounded-[5px]'>Generar N° de folio</button>
           {folio && (
           <>
-          <input value={folio} className='w-[50%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="number" name="" id=""  placeholder='Capacidad del vehiculo'/>
+          <input value={folio} className='lg:w-[50%] w-[80%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="number" name="" id=""  placeholder='Capacidad del vehiculo'/>
           </>
           )}
           </div>
         </div>
       </div>
-      <div className='w-full h-[10vh] flex py-[1rem] justify-center'>
-        <button onClick={crearAltas} className='w-[15%] h-[3rem] rounded-[10px] bg-[#d341d3] text-[white]'>Crear Permiso</button>
+      <div className='w-full h-[10vh] flex py-[1rem] lg:py-[5rem] xl:py-[0rem] justify-center'>
+        <button onClick={crearAltas} className='lg:w-[15%] w-[70%] h-[3rem] rounded-[10px] bg-[#7e7e7e] text-[white]'>Crear Permiso</button>
       </div>
       
     </div>

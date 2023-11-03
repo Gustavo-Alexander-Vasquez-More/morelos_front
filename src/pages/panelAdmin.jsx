@@ -220,8 +220,8 @@ return (
         <p className='lg:text-[3rem] text-[2rem]'>Sistema de Altas</p>
         <p className='text-[1.8rem]'>Permisos Morelos</p>
         <div className='flex justify-center w-full h-auto'>
-        <img className='w-[10rem]' src="https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/escudo.jpg?alt=media&token=40ec5ebe-5530-47ee-97d0-0f08fe836d00&_gl=1*ivuve8*_ga*MTQ4NzE3MDk0NC4xNjkzOTUwNDk1*_ga_CW55HF8NVT*MTY5ODMzMjk5My40Ny4xLjE2OTgzMzQwNjcuNjAuMC4w" alt="" />
-        <img className='w-[20rem]' src="https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/resto.png?alt=media&token=d7b3d22e-9ccf-4aa4-a5aa-a5f3867faf2b&_gl=1*18e7ggn*_ga*MTQ4NzE3MDk0NC4xNjkzOTUwNDk1*_ga_CW55HF8NVT*MTY5ODMzMjk5My40Ny4xLjE2OTgzMzQyNDAuNjAuMC4w" alt="" />
+        <img className='lg:w-[10rem] w-[6rem]' src="https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/escudo.jpg?alt=media&token=40ec5ebe-5530-47ee-97d0-0f08fe836d00&_gl=1*ivuve8*_ga*MTQ4NzE3MDk0NC4xNjkzOTUwNDk1*_ga_CW55HF8NVT*MTY5ODMzMjk5My40Ny4xLjE2OTgzMzQwNjcuNjAuMC4w" alt="" />
+        <img className='lg:w-[20rem] w-[10rem]' src="https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/resto.png?alt=media&token=d7b3d22e-9ccf-4aa4-a5aa-a5f3867faf2b&_gl=1*18e7ggn*_ga*MTQ4NzE3MDk0NC4xNjkzOTUwNDk1*_ga_CW55HF8NVT*MTY5ODMzMjk5My40Ny4xLjE2OTgzMzQyNDAuNjAuMC4w" alt="" />
         </div>
       </div>
     </div>
