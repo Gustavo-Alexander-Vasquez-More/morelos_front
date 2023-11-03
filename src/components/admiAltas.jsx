@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import antecedentes_actions from '../redux/actions/permisosActions.js';
+
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import EditarAntecedente from './editarAntecedente.jsx';

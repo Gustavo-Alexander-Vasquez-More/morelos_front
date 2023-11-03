@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import antecedentes_actions from '../redux/actions/permisosActions.js';
+import permisos_actions from '../redux/actions/permisosActions.js';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import { Link as Anchor } from 'react-router-dom';
@@ -22,17 +22,17 @@ export default function admiAltasrol3() {
       author: user,
     };
     localStorage.setItem('pagina', currentPage);
-    dispatch(antecedentes_actions.read_AntecedentesAuth(payload));
+    dispatch(permisos_actions.read_permisosAuth(payload));
   }, [dispatch, currentPage]);
 
   useEffect(() => {
-  dispatch(antecedentes_actions.read_AllAntecedentes())
+  dispatch(permisos_actions.read_AllPermisos())
   }, [dispatch]);
-  const Antecedente = useSelector((store) => store.antecedentes?.AntecedentesAuth);
+  const Permiso = useSelector((store) => store.permisos?.PermisosAuth);
  
-  const Antecedentes = Antecedente?.response || [];
-  const AllAntecedentes=useSelector((store)=>store.antecedentes?.AllAntecedentes)
-  const AntecedentesAuth=AllAntecedentes?.filter(licencia=> licencia.author_id.usuario === user)
+  const Permisos = Permiso?.response || [];
+  const AllPermisos=useSelector((store)=>store.permisos?.AllPermisos)
+  const PermisosAuth=AllPermisos?.filter(licencia=> licencia.author_id.usuario === user)
   
   
 
@@ -57,13 +57,13 @@ export default function admiAltasrol3() {
         });
   
         if (confirmation.isConfirmed) {
-          await dispatch(antecedentes_actions.delete_antecedentes(dato));
+          await dispatch(permisos_actions.delete_permisos(dato));
           await setCurrentPage(1);
           Swal.fire({
             position: 'center',
             icon: 'success',
             title: 'Antecedente eliminado',
-            showConfirmButton:dispatch(antecedentes_actions.read_AntecedentesAuth(payload)),
+            showConfirmButton:dispatch(permisos_actions.read_permisosAuth(payload)),
             timer: 1500,
           });
   
@@ -105,14 +105,14 @@ export default function admiAltasrol3() {
   };
   const MAX_RESULTS = 5;
 
-  const filteredLicencias = searchTerm
-    ? AntecedentesAuth?.filter((licencia) => {
-        const nombre = licencia?.nombre.toLowerCase();
+  const filteredPermisos = searchTerm
+    ? PermisosAuth?.filter((licencia) => {
+        const nombre = licencia?.propietario.toLowerCase();
         const folio = licencia?.folio.toLowerCase();
         const searchTermLower = searchTerm.toLowerCase();
         return nombre.includes(searchTermLower) || folio.includes(searchTermLower);
-      }).slice(0, searchTerm === AntecedentesAuth[0]?.author_id.usuario.toLowerCase() ? AntecedentesAuth.length : MAX_RESULTS)
-    : Antecedentes;
+      }).slice(0, searchTerm === PermisosAuth[0]?.author_id.usuario.toLowerCase() ? PermisosAuth.length : MAX_RESULTS)
+    : Permisos;
   return (
     <div className='w-full h-screen bg-[url("https://firebasestorage.googleapis.com/v0/b/validacion-de-licencias-c813d.appspot.com/o/pngtree-abstract-white-and-light-gray-wave-modern-soft-luxury-texture-with-image_1379862.jpg?alt=media&token=083e0548-05a8-404f-8bb9-6ac6703d270c")] bg-no-repeat bg-cover'>
     <div className='w-full lg:h-20 h-[5vh] flex justify-center items-center'>
@@ -137,11 +137,12 @@ export default function admiAltasrol3() {
             <tr className=''>
               <th className='text-center px-[1rem] bg-gray-200 text-[0.5rem] lg:text-[1rem]'>NOMBRE</th>
               <th className='text-center px-[1rem] bg-gray-200 text-[0.5rem] lg:text-[1rem]'>FOLIO</th>
-            <th className='text-center px-[1rem] bg-gray-200 text-[0.5rem] lg:text-[1rem]'>PDF/ELIMINAR</th>
+              <th className='text-center px-[1rem] bg-gray-200 text-[0.5rem] lg:text-[1rem]'>CREADOR</th>
+            <th className='text-center px-[1rem] bg-gray-200 text-[0.5rem] lg:text-[1rem]'>IMPRIMIR/ELIMINAR</th>
               </tr>
           </thead>
           <tbody>
-          {filteredLicencias?.length === 0 ? (
+          {filteredPermisos?.length === 0 ? (
               <tr>
                 <td colSpan={4} className='text-center px-[1rem] py-4 bg-gray-100'>
                   <p className='lg:text-[1rem] text-[0.8rem]'>
@@ -150,10 +151,11 @@ export default function admiAltasrol3() {
                 </td>
               </tr>
             ) : (
-              filteredLicencias?.map((licencia) => (
+              filteredPermisos.map((licencia) => (
                 <tr  key={licencia._id}>
-                  <td className='text-center px-[1rem] bg-gray-100 text-[0.5rem] lg:text-[1rem]'>{licencia.nombre}</td>
+                  <td className='text-center px-[1rem] bg-gray-100 text-[0.5rem] lg:text-[1rem]'>{licencia.propietario}</td>
                   <td className='text-center px-[1rem] bg-gray-100 text-[0.5rem] lg:text-[1rem]'>{licencia.folio}</td>
+                  <td className='text-center px-[1rem] bg-gray-100 text-[0.5rem] lg:text-[1rem]'>{licencia?.author_id?.usuario}</td>
                   <td className='justify-center px-[1rem] flex lg:gap-5 gap-1 bg-gray-100 '>
                   <Anchor className='flex ' to={`/consultaPDF/${licencia.folio}`}>
                   <button className=''>
@@ -176,10 +178,10 @@ export default function admiAltasrol3() {
         </div>
       <div className='w-full h-[6vh] flex justify-center gap-5 items-center'>
       <button onClick={handlePrev}
-        disabled={Antecedente?.prevPage === null} className='bg-[#1db9b9] text-white p-1 rounded-[10px] disabled:bg-[gray]'>Anterior</button>
+        disabled={Permiso?.prevPage === null} className='bg-[#1db9b9] text-white p-1 rounded-[10px] disabled:bg-[gray]'>Anterior</button>
       <p>Página: {currentPage}</p>
       <button onClick={handleNext}
-          disabled={ Antecedente?.nextPage === null} className='bg-[#1db9b9] text-white p-1 rounded-[10px] disabled:bg-[gray]'>Siguiente</button>
+          disabled={ Permiso?.nextPage === null} className='bg-[#1db9b9] text-white p-1 rounded-[10px] disabled:bg-[gray]'>Siguiente</button>
         </div>
     </div>
   </div>
