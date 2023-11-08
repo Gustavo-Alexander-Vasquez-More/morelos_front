@@ -30,7 +30,7 @@ const param=localStorage.getItem('folioEdit')
         Swal.fire({
             position: 'center',
             icon: 'success',
-            title: 'Licencia Editada',
+            title: 'Permiso Editado!',
             showConfirmButton: false,
             timer: 1500
           });
@@ -40,7 +40,7 @@ const param=localStorage.getItem('folioEdit')
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: 'No se pudo editar'
+                text: 'No se pudo editar!'
               });
             }
         
@@ -57,7 +57,7 @@ const param=localStorage.getItem('folioEdit')
   return (
     <div className='w-full h-[50vh] '>
       <div className='w-full h-[5vh] flex justify-center items-center'>
-        <p>EDITOR DE LICENCIAS</p>
+        <p>EDITOR DE PERMISOS</p>
       </div>
       <div className='w-full flex justify-center h-auto'>
         <div className='lg:w-[30%] w-[80%] border-solid border-[1px] border-[gray] px-[1rem] py-[1rem] flex flex-col gap-5 rounded-[5px]'>

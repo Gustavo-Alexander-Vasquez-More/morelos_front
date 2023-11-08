@@ -78,7 +78,7 @@ async function deleteCliente(folio) {
           Swal.fire({
             position: 'center',
             icon: 'success',
-            title: 'Permiso eliminado',
+            title: 'Permiso eliminado!',
             showConfirmButton: dispatch(permisos_actions.read_permisos(currentPage)) ,
             timer: 1500,
           });
@@ -94,7 +94,7 @@ async function deleteCliente(folio) {
         });
       }
     } catch (error) {
-      console.error('Error al eliminar cliente:', error);
+      console.error('Error al eliminar el Permiso:', error);
     }
   }
   

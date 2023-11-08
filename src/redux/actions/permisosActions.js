@@ -48,7 +48,7 @@ const read_AllPermisos = createAsyncThunk(
           Swal.fire({
             position: 'center',
             icon: 'success',
-            title: 'Permiso creado',
+            title: 'Permiso creado, Para verlo dirigete a administrar permisos.',
             showConfirmButton: false,
             timer: 1500
           });
@@ -57,7 +57,7 @@ const read_AllPermisos = createAsyncThunk(
             Swal.fire({
               icon: 'error',
               title: 'Genere un nuevo folio!',
-              text: 'El folio ya existe o se usó recientemente.Para evitar conflictos por favor genera un nuevo folio.',
+              text: 'El folio ya existe o se usó recientemente.Genera un nuevo folio y QR haciendo 2 click en el boton "Generar folio y QR".',
             });
       }
     }

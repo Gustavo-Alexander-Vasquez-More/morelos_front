@@ -8,7 +8,7 @@ export default function coneccion() {
     useEffect(() => {
       dispatch(userActions?.read_users());
     }, []);
-    const usuarios = useSelector((state) => state.users.users) || [];
+    const usuarios = useSelector((state) => state.users?.users) || [];
     
   return (
     <div className='w-full h-screen bg-white flex justify-center py-[2rem]'>

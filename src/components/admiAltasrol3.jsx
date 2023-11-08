@@ -49,7 +49,7 @@ export default function admiAltasrol3() {
     try {
       if (dato) {
         const confirmation = await Swal.fire({
-          title: '¿Estás seguro de que deseas eliminar este Antecedente?',
+          title: '¿Estás seguro de que deseas eliminar este Permiso?',
           showDenyButton: true,
           
           confirmButtonText: 'Sí',
@@ -62,7 +62,7 @@ export default function admiAltasrol3() {
           Swal.fire({
             position: 'center',
             icon: 'success',
-            title: 'Antecedente eliminado',
+            title: 'Permiso eliminado',
             showConfirmButton:dispatch(permisos_actions.read_permisosAuth(payload)),
             timer: 1500,
           });
@@ -81,7 +81,7 @@ export default function admiAltasrol3() {
         });
       }
     } catch (error) {
-      console.error('Error al eliminar cliente:', error);
+      console.error('Error al eliminar el permiso:', error);
     }
   }
     

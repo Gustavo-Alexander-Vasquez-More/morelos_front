@@ -4,11 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import userActions from '../redux/actions/userActions.js';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-
+import QRCode from 'qrcode.react'; 
 export default function crearAltas() {
 const dispatch=useDispatch()
 const navigate=useNavigate()
 const [propietario, setPropietario] =useState()
+ const [loading, setLoading] = useState(false);
 const [marca, setMarca]=useState()
 const [subMarca, setSubMarca]=useState()
 const [modelo, setModelo]=useState()
@@ -20,6 +21,8 @@ const [vigencia, setVigencia]=useState()
 const [delegacion, setDelegacion]=useState()
 const [linea,setLinea]=useState()
 const [folio, setFolio]=useState()
+const [qr, setQr]=useState('')
+console.log(qr);
 
 const inputProp=useRef()
 const inputDelegacion=useRef()
@@ -109,17 +112,37 @@ const obtenerNuevoFolio = () => {
   const nuevoFolio = ultimoFolio + 1;
   return nuevoFolio.toString().padStart(7, '0');
 };
+const generateQR = (folio) => {
+  const text=`--PERMISO AUTENTICO-- Folio: ${folio}, Marca:${marca}, Linea:${linea}, Modelo:${modelo}, N°.Serie:${serie}, Fecha Vencimiento:${vigencia}`
+  const qrDataURL = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(text)}`;
+
+  fetch(qrDataURL)
+    .then(response => response.blob())
+    .then(blob => {
+      // Crear un objeto File a partir del Blob
+      const qrImageFile = new File([blob], 'qr.png', { type: 'image/png' });
+
+      // Almacenar la imagen del QR en el estado
+      setQr(qrImageFile);
+      console.log('Imagen del QR:', qrImageFile);
+    })
+    .catch(error => {
+      console.error('Error al generar el QR:', error);
+    });
+};
 async function folioactual() {
   try {
-  const nuevoFolio = obtenerNuevoFolio();
-  await  setFolio(nuevoFolio);
-} catch (error) {
+    
+    const nuevoFolio = obtenerNuevoFolio();
+  await  setFolio(nuevoFolio); // Espera a que se actualice el estado 'folio'
+  await  generateQR(nuevoFolio); // Llama a generateQR después de establecer el 'folio'
+  } catch (error) {
     console.log(error);
   }
 }
 async function crearAltas(){
   try {
-    if (!propietario || !folio || !marca || !subMarca || !modelo || !capacidad || !motor|| !serie || !linea || !delegacion ) {
+    if (!propietario || !folio || !marca || !subMarca || !modelo || !capacidad || !motor|| !serie || !linea || !delegacion  ) {
       Swal.fire({
         icon: 'error',
         title: 'Completa todos los campos',
@@ -127,21 +150,22 @@ async function crearAltas(){
       });
       return;
     }
-  const data={
-  propietario:propietario,
-  marca:marca,
-  linea:linea,
-  delegacion:delegacion,
-  subMarca:subMarca,
-  modelo:modelo,
-  capacidad:capacidad,
-  motor:motor,
-  serie:serie,
-  expedicion:expedicion,
-  vigencia:vigencia,
-  folio:folio,
-  author_id:author
-  }
+    const formData = new FormData();
+    formData.append('propietario', propietario);
+    formData.append('marca', marca);
+    formData.append('linea', linea);
+    formData.append('qr', qr);
+    formData.append('delegacion', delegacion);
+    formData.append('subMarca', subMarca);
+    formData.append('modelo', modelo);
+    formData.append('capacidad', capacidad);
+    formData.append('motor', motor);
+    formData.append('serie', serie);
+    formData.append('expedicion', expedicion);
+    formData.append('vigencia', vigencia);
+    formData.append('folio', folio);
+    formData.append('author_id', author);
+  
   const rolUsuario = parseInt(localStorage.getItem('rol'));
     const tieneFoliosSuficientes = foliosUser > 0 || rolUsuario === 1 || rolUsuario === 2;
 
@@ -161,8 +185,8 @@ async function crearAltas(){
 
         await dispatch(userActions.update_users(payload));
       }
-      await dispatch(permisos_actions.create_permisos(data));
-      navigate(`/consultaPDF/${folio}`)
+      await dispatch(permisos_actions.create_permisos(formData));
+      
     } else {
       Swal.fire({
         position: 'center',
@@ -172,6 +196,7 @@ async function crearAltas(){
         timer: 1500,
       });
     }
+    
   } catch (error) {
     console.log(error);
   }
@@ -232,17 +257,22 @@ async function crearAltas(){
           <input value={vigencia} className='lg:w-[50%] w-[80%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="text" name="" id=""  placeholder='Modelo del vehiculo'/>
         </div>
         <div className='w-full h-auto flex flex-col gap-2'>
-          <button onClick={folioactual} className='text-center bg-[#3d0e3d] px-[0.5rem] py-[0.3rem] lg:w-[30%] w-[80%] text-white rounded-[5px]'>Generar N° de folio</button>
+          <button onClick={folioactual} className='text-center bg-[#3d0e3d] px-[0.5rem] py-[0.3rem] lg:w-[30%] w-[80%] text-white rounded-[5px]'>Generar folio y Qr</button>
           {folio && (
           <>
           <input value={folio} className='lg:w-[50%] w-[80%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="number" name="" id=""  placeholder='Capacidad del vehiculo'/>
+          <div  >
+            <QRCode name='qr' size={80} value={`--PERMISO AUTENTICO-- Folio: ${folio}, Marca:${marca}, Linea:${linea}, Modelo:${modelo}, N°.Serie:${serie}, Fecha Vencimiento:${vigencia}`} />
+            </div>
           </>
           )}
           </div>
         </div>
       </div>
-      <div className='w-full h-[10vh] flex py-[1rem] lg:py-[5rem] xl:py-[0rem] justify-center'>
-        <button onClick={crearAltas} className='lg:w-[15%] w-[70%] h-[3rem] rounded-[10px] bg-[#7e7e7e] text-[white]'>Crear Permiso</button>
+      <div className='w-full h-[10vh]  flex py-[1rem] lg:py-[5rem] xl:py-[1rem] justify-center lg:justify-start lg:px-[5rem]' >
+      <button onClick={crearAltas} className="xl:w-[15%] lg:w-[30%] lg:h-[2.5rem] px-[1rem] py-[0.3rem] lg:py-[0.5rem] bg-[#17103a] text-white rounded-[10px]">
+          {loading ? 'Creando...' : 'Crear Permiso'}
+        </button>
       </div>
       
     </div>
