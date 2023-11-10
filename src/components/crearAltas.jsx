@@ -202,79 +202,65 @@ async function crearAltas(){
   }
 }
   return (
-    <div className='w-full lg:h-[110vh] h-auto  flex-col'>
-      <div className='w-full h-[5vh] flex justify-center items-center'>
-        <p className=' font-bold text-[1.5rem]'>Crear permisos</p>
-      </div>
-      <div className='w-full lg:h-[80vh] h-auto flex lg:flex-row flex-col'>
-        {/*ESTA ES LA PRIMERA SECCION*/}
-        <div className='lg:w-[50%] w-full lg:h-[80vh] h-auto px-[1rem]  lg:px-[5rem] flex flex-col gap-5 py-[3rem]'>
-        <div className='w-full h-auto flex flex-col gap-2'>
-          <p>Propietario</p>
-          <input ref={inputProp} onChange={captureProp} className='lg:w-[50%] w-[80%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="text" name="" id=""  placeholder='Nombre completo'/>
-        </div>
-        <div className='w-full h-auto flex flex-col gap-2'>
-          <p>Delegacion que expide</p>
-          <input ref={inputDelegacion} onChange={captureDele} className='lg:w-[50%] w-[80%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="text" name="" id=""  placeholder='Delegación'/>
-        </div>
-        <div className='w-full h-auto flex-col gap-2'>
-          <p>Marca</p>
-          <input ref={inputMarca} onChange={captureMarca} className='lg:w-[50%] w-[80%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="text" name="" id=""  placeholder='Marca del vehiculo'/>
-        </div>
-        <div className='w-full h-auto flex-col gap-2'>
-          <p>Submarca</p>
-          <input ref={inputSubMarca} onChange={captureSubMarca} className='lg:w-[50%] w-[80%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="text" name="" id=""  placeholder='Submarca del vehiculo'/>
-        </div>
-        <div className='w-full h-auto flex-col gap-2'>
-          <p>Modelo</p>
-          <input ref={inputModelo} onChange={captureModelo} className='lg:w-[50%] w-[80%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="text" name="" id=""  placeholder='Modelo del vehiculo'/>
-        </div>
-        <div className='w-full h-auto flex flex-col gap-2'>
-          <p>Capacidad</p>
-          <input ref={inputCapacidad} onChange={captureCapacidad} className='lg:w-[50%] w-[80%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="text" name="" id=""  placeholder='Capacidad del vehiculo'/>
-        </div>
-        </div>
-        {/*ESTA ES LA SEGUNDA SECCION*/}
-        <div className='lg:w-[50%] w-full lg:h-[90vh] h-auto px-[1rem]  lg:px-[5rem] flex flex-col gap-5 py-[3rem]'>
-        <div className='w-full h-auto flex flex-col gap-2'>
-          <p>Linea</p>
-          <input ref={inputLinea} onChange={captureLinea} className='lg:w-[50%] w-[80%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="text" name="" id=""  placeholder='Escriba el N° de Serie'/>
-        </div>
-        <div className='w-full h-auto flex flex-col gap-2'>
-          <p>N° de Serie</p>
-          <input ref={inputSerie} onChange={captureSerie} className='lg:w-[50%] w-[80%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="text" name="" id=""  placeholder='Escriba el N° de Serie'/>
-        </div>
-        <div className='w-full h-auto flex flex-col gap-2'>
-          <p>N° de Motor</p>
-          <input ref={inputMotor} onChange={captureMotor} className='lg:w-[50%] w-[80%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="number" name="" id=""  placeholder='N° de Motor'/>
-        </div>
-        <div className='w-full h-auto flex flex-col gap-2'>
-          <p>Expedicion</p>
-          <input value={expedicion}  className='lg:w-[50%] w-[80%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="text" name="" id=""  placeholder='Submarca del vehiculo'/>
-        </div>
-        <div className='w-full h-auto flex flex-col gap-2'>
-          <p>Vigencia</p>
-          <input value={vigencia} className='lg:w-[50%] w-[80%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="text" name="" id=""  placeholder='Modelo del vehiculo'/>
-        </div>
-        <div className='w-full h-auto flex flex-col gap-2'>
-          <button onClick={folioactual} className='text-center bg-[#3d0e3d] px-[0.5rem] py-[0.3rem] lg:w-[30%] w-[80%] text-white rounded-[5px]'>Generar folio y Qr</button>
-          {folio && (
-          <>
-          <input value={folio} className='lg:w-[50%] w-[80%] rounded-[5px] px-[0.5rem] py-[0.3rem] border-solid border-[2px] border-[black]' type="number" name="" id=""  placeholder='Capacidad del vehiculo'/>
-          <div  >
-            <QRCode name='qr' size={80} value={`--PERMISO AUTENTICO-- Folio: ${folio}, Marca:${marca}, Linea:${linea}, Modelo:${modelo}, N°.Serie:${serie}, Fecha Vencimiento:${vigencia}`} />
-            </div>
-          </>
-          )}
-          </div>
-        </div>
-      </div>
-      <div className='w-full h-[10vh]  flex py-[1rem] lg:py-[5rem] xl:py-[1rem] justify-center lg:justify-start lg:px-[5rem]' >
-      <button onClick={crearAltas} className="xl:w-[15%] lg:w-[30%] lg:h-[2.5rem] px-[1rem] py-[0.3rem] lg:py-[0.5rem] bg-[#17103a] text-white rounded-[10px]">
-          {loading ? 'Creando...' : 'Crear Permiso'}
-        </button>
-      </div>
-      
+    <div className='w-full h-auto bg-[url("https://www.frontconsulting.com/wp-content/uploads/2016/11/fondo_formulario3.jpg")] overflow-x-hidden overflow-y-hidden'>
+<div className='w-full flex justify-center items-center h-[5vh]  text-[2rem] text-white font-sans'><p>CREAR PERMISOS</p></div>
+<div className='w-full h-auto py-[2rem] '>
+<div className='w-full h-auto flex justify-center flex-col ml-[35rem] gap-[0.5rem]'>
+  <p className='text-[white] text-[1.2rem]'>Propietario</p>
+  <input className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] w-[30%]' type="text" name="" id="" />
+</div>
+{/**--------------------- */}
+<div className='w-full h-auto flex justify-center flex-col ml-[35rem] gap-[0.5rem]'>
+  <p className='text-[white] text-[1.2rem]'>Delegación que Expide</p>
+  <input className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] w-[30%]' type="text" name="" id="" />
+</div>
+{/**--------------------- */}
+<div className='w-full h-auto flex justify-center flex-col ml-[35rem] gap-[0.5rem]'>
+  <p className='text-[white] text-[1.2rem]'>Marca</p>
+  <input className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] w-[30%]' type="text" name="" id="" />
+</div>
+{/**--------------------- */}
+<div className='w-full h-auto flex justify-center flex-col ml-[35rem] gap-[0.5rem]'>
+  <p className='text-[white] text-[1.2rem]'>Sub-Marca</p>
+  <input className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] w-[30%]' type="text" name="" id="" />
+</div>
+{/**--------------------- */}
+<div className='w-full h-auto flex justify-center flex-col ml-[35rem] gap-[0.5rem]'>
+  <p className='text-[white] text-[1.2rem]'>Linea</p>
+  <input className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] w-[30%]' type="text" name="" id="" />
+</div>
+{/**--------------------- */}
+<div className='w-full h-auto flex justify-center flex-col ml-[35rem] gap-[0.5rem]'>
+  <p className='text-[white] text-[1.2rem]'>Modelo</p>
+  <input className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] w-[30%]' type="text" name="" id="" />
+</div>
+{/**--------------------- */}
+<div className='w-full h-auto flex justify-center flex-col ml-[35rem] gap-[0.5rem]'>
+  <p className='text-[white] text-[1.2rem]'>Capacidad</p>
+  <input className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] w-[30%]' type="text" name="" id="" />
+</div>
+<div className='w-full h-auto flex justify-center flex-col ml-[35rem] gap-[0.5rem]'>
+  <p className='text-[white] text-[1.2rem]'>N° de Serie</p>
+  <input className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] w-[30%]' type="text" name="" id="" />
+</div>
+{/**--------------------- */}
+<div className='w-full h-auto flex justify-center flex-col ml-[35rem] gap-[0.5rem]'>
+  <p className='text-[white] text-[1.2rem]'> N° de Motor</p>
+  <input className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] w-[30%]' type="text" name="" id="" />
+</div>
+{/**--------------------- */}
+<div className='w-full h-auto flex justify-center flex-col ml-[35rem] gap-[0.5rem]'>
+  <p className='text-[white] text-[1.2rem]'>Fecha de expedición</p>
+  <input className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] w-[30%]' type="text" name="" id="" />
+</div>
+{/**--------------------- */}
+<div className='w-full h-auto flex justify-center flex-col ml-[35rem] gap-[0.5rem]'>
+  <p className='text-[white] text-[1.2rem]'>Fecha de vigencia</p>
+  <input className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] w-[30%]' type="text" name="" id="" />
+</div>
+{/**--------------------- */}
+</div>
     </div>
+    
   );
 }

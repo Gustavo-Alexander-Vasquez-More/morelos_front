@@ -19,6 +19,7 @@ const navigate=useNavigate()
 function openModal(opcion){
 setOpcionSelect(opcion)
 setMostrarModal(true)
+setMenu(false)
 }
 function openMenu() {
 setMenu(true);
@@ -71,7 +72,7 @@ const numberRol=parseInt(rol)
 
 return (
 <div className='w-full h-full'>
-    <div className={`absolute bg-[#17103a] lg:w-[30%] w-[60%] h-full py-[2rem] lg:px-[2rem] px-[1.3rem] flex flex-col gap-10 items-start transition-transform ${menu ? 'translate-x-0' : '-translate-x-full'}`}>
+    <div className={`absolute bg-[#17103a] lg:w-[30%] xl:w-[20%] w-[60%] h-full py-[2rem] lg:px-[2rem] px-[1.3rem] flex flex-col gap-10 items-start transition-transform ${menu ? 'translate-x-0' : '-translate-x-full'}`}>
         <Anchor onClick={closeMenu}>
         <svg className="w-6 h-6 text-[white] hover:animate-spin" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>

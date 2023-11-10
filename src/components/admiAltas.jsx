@@ -163,7 +163,7 @@ const numbRol=parseInt(rol)
             <thead className=''>
               <tr className=''>
                 <th className='text-center px-[1rem] bg-gray-200 text-[0.5rem] lg:text-[1rem]'>PROPIETARIO</th>
-                <th className='text-center px-[1rem] bg-gray-200 text-[0.5rem] lg:text-[1rem]'>FOLIO</th>
+                <th className='text-center px-[1rem] bg-gray-200 text-[0.5rem] lg:text-[1rem]'>FOLIO USADO</th>
                 <th className='text-center px-[1rem] bg-gray-200 text-[0.5rem] lg:text-[1rem]'>CREADOR</th>
                 <th className='text-center px-[1rem] bg-gray-200 text-[0.5rem] lg:text-[1rem]'>IMPRIMIR/EDITAR/ELIMINAR</th>
                 </tr>
