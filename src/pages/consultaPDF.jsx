@@ -26,7 +26,7 @@ const consultaPDF= () => {
   const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
   const delegacion=antecedenteFiltrado.map(antecedente=>antecedente.delegacion).toString()
   const linea=antecedenteFiltrado.map(antecedente=>antecedente.linea).toString()
-  const qrImg=antecedenteFiltrado?.length > 0 ? antecedenteFiltrado[0].qr.replace(/\\/g, '/') : null;
+  const qrImg=antecedenteFiltrado?.length > 0 ? antecedenteFiltrado[0].qr : null;
   
   console.log(qrImg);
 {/*ACA VA LA SECCION 2*/}
@@ -35,6 +35,7 @@ const consultaPDF= () => {
   const subMarca=antecedenteFiltrado?.map(antecedente=>antecedente.subMarca).toString()
   const motor=antecedenteFiltrado?.map(antecedente=>antecedente.motor)
   const serie=antecedenteFiltrado?.map(antecedente=>antecedente.serie).toString()
+  const vigencia=antecedenteFiltrado?.map(antecedente=>antecedente.vigencia).toString()
   const styles = StyleSheet.create({
   
     expedicion:{
@@ -82,7 +83,7 @@ const consultaPDF= () => {
     propietario:{
       transform: 'rotate(90deg)',
       top:'90.9%',
-      right:'9.6%',
+      right:'9%',
       fontSize:13
     },
     capacidad:{
@@ -115,6 +116,13 @@ const consultaPDF= () => {
       left:'65%',
       width:'12%'
     },
+    vigencia:{
+      transform: 'rotate(90deg)',
+      top:'37%',
+      width:'20%',
+      left:'70%',
+      fontSize:13
+    },
   });
  function generateDownloadLink() {
     return (
@@ -136,8 +144,8 @@ const consultaPDF= () => {
     <Text style={styles.subMarca}>{subMarca.toUpperCase()}</Text>
     <Text style={styles.motor}>{motor}</Text>
     <Text style={styles.serie}>{serie.toUpperCase()}</Text>
-    <Image style={styles.qr}src={{ uri:`http://localhost:8086/${qrImg}` , method: 'GET'}}/>
-   
+    <Image style={styles.qr}src={{ uri:`${qrImg}` , method: 'GET'}}/>
+    <Text style={styles.vigencia}>{vigencia}</Text>
     </View>
     
     </View>
@@ -179,8 +187,8 @@ return (
     <Text style={styles.subMarca}>{subMarca.toUpperCase()}</Text>
     <Text style={styles.motor}>{motor}</Text>
     <Text style={styles.serie}>{serie.toUpperCase()}</Text>
-    <Image style={styles.qr}src={{ uri:`http://localhost:8086/${qrImg}` , method: 'GET'}}/>
-   
+    <Image style={styles.qr}src={{ uri:`${qrImg}` , method: 'GET'}}/>
+   <Text style={styles.vigencia}>{vigencia}</Text>
     </View>
     
     </View>

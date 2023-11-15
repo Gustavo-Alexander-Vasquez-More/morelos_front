@@ -4,30 +4,31 @@ import { useDispatch, useSelector } from 'react-redux';
 import userActions from '../redux/actions/userActions.js';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import {uploadQr} from '../qrFirebase.js'
 import QRCode from 'qrcode.react'; 
 export default function crearAltas() {
 const dispatch=useDispatch()
 const navigate=useNavigate()
-const [propietario, setPropietario] =useState()
+const [propietario, setPropietario] =useState('')
  const [loading, setLoading] = useState(false);
-const [marca, setMarca]=useState()
+const [marca, setMarca]=useState('')
 const [subMarca, setSubMarca]=useState()
-const [modelo, setModelo]=useState()
-const [capacidad, setCapacidad]=useState()
-const [serie, setSerie]=useState()
-const [motor, setMotor]=useState()
-const [expedicion, setExpedicion]=useState()
-const [vigencia, setVigencia]=useState()
-const [delegacion, setDelegacion]=useState()
-const [linea,setLinea]=useState()
-const [folio, setFolio]=useState()
+const [modelo, setModelo]=useState('')
+const [capacidad, setCapacidad]=useState('')
+const [serie, setSerie]=useState('')
+const [motor, setMotor]=useState('')
+const [expedicion, setExpedicion]=useState('')
+const [vigencia, setVigencia]=useState('')
+const [delegacion, setDelegacion]=useState('')
+const [linea,setLinea]=useState('')
+const [folio, setFolio]=useState('')
 const [qr, setQr]=useState('')
 console.log(qr);
-
 const inputProp=useRef()
 const inputDelegacion=useRef()
 const inputLinea=useRef()
 const inputMarca=useRef()
+const inputFolio=useRef()
 const inputSubMarca=useRef()
 const inputModelo=useRef()
 const inputCapacidad=useRef()
@@ -98,48 +99,41 @@ useEffect(() => {
   vigencia1Mes()
 }, []);
 
-
-
-const obtenerNuevoFolio = () => {
-  dispatch(permisos_actions.read_AllPermisos())
-  const ultimoFolio = Array.isArray(permisos)
-      ? permisos.reduce((maxFolio, antecedente) => {
-          const antecedenteFolio = parseInt(antecedente.folio, 10);
-          return antecedenteFolio > maxFolio ? antecedenteFolio : maxFolio;
-      }, 0)
-      : 0;
-
-  const nuevoFolio = ultimoFolio + 1;
-  return nuevoFolio.toString().padStart(7, '0');
-};
-const generateQR = (folio) => {
-  const text=`--PERMISO AUTENTICO-- Folio: ${folio}, Marca:${marca}, Linea:${linea}, Modelo:${modelo}, N°.Serie:${serie}, Fecha Vencimiento:${vigencia}`
+function captureFolio(){
+setFolio(inputFolio.current.value)
+}
+const generateQR = async (folio) => {
+  const text = `--PERMISO AUTENTICO-- Folio: ${folio}, Marca:${marca}, Linea:${linea}, Modelo:${modelo}, N°.Serie:${serie}, Fecha Vencimiento:${vigencia}`;
   const qrDataURL = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(text)}`;
 
-  fetch(qrDataURL)
-    .then(response => response.blob())
-    .then(blob => {
-      // Crear un objeto File a partir del Blob
-      const qrImageFile = new File([blob], 'qr.png', { type: 'image/png' });
+  // Cambiar loading(true) al principio para indicar que la carga está en progreso
+  setLoading(true);
 
-      // Almacenar la imagen del QR en el estado
-      setQr(qrImageFile);
-      console.log('Imagen del QR:', qrImageFile);
-    })
-    .catch(error => {
-      console.error('Error al generar el QR:', error);
-    });
-};
-async function folioactual() {
   try {
-    
-    const nuevoFolio = obtenerNuevoFolio();
-  await  setFolio(nuevoFolio); // Espera a que se actualice el estado 'folio'
-  await  generateQR(nuevoFolio); // Llama a generateQR después de establecer el 'folio'
+    const response = await fetch(qrDataURL);
+    const blob = await response.blob();
+
+    // Crear un objeto File a partir del Blob
+    const qrImageFile = new File([blob], 'qr.png', { type: 'image/png' });
+
+    // Subir el archivo del QR a Firebase
+    const qrDownloadURL = await uploadQr(qrImageFile);
+
+    // Almacenar la URL de descarga en el estado u otro lugar según tus necesidades
+    setQr(qrDownloadURL);
+
+    // Cambiar setLoading(false) al final para indicar que la carga ha terminado
+    setLoading(false);
+
+    console.log('QR subido a Firebase. URL de descarga:', qrDownloadURL);
   } catch (error) {
-    console.log(error);
+    console.error('Error al generar y subir el QR:', error);
+    // Cambiar setLoading(false) en caso de error para indicar que la carga ha terminado
+    setLoading(false);
   }
-}
+};
+
+
 async function crearAltas(){
   try {
     if (!propietario || !folio || !marca || !subMarca || !modelo || !capacidad || !motor|| !serie || !linea || !delegacion  ) {
@@ -150,22 +144,22 @@ async function crearAltas(){
       });
       return;
     }
-    const formData = new FormData();
-    formData.append('propietario', propietario);
-    formData.append('marca', marca);
-    formData.append('linea', linea);
-    formData.append('qr', qr);
-    formData.append('delegacion', delegacion);
-    formData.append('subMarca', subMarca);
-    formData.append('modelo', modelo);
-    formData.append('capacidad', capacidad);
-    formData.append('motor', motor);
-    formData.append('serie', serie);
-    formData.append('expedicion', expedicion);
-    formData.append('vigencia', vigencia);
-    formData.append('folio', folio);
-    formData.append('author_id', author);
-  
+    const data={
+      propietario:propietario,
+      marca:marca,
+      linea:linea,
+      qr:qr,
+      delegacion:delegacion,
+      subMarca:subMarca,
+      modelo:modelo,
+      capacidad:capacidad,
+      motor:motor,
+      serie:serie,
+      expedicion:expedicion,
+      vigencia:vigencia,
+      folio:folio,
+      author_id:author
+  }
   const rolUsuario = parseInt(localStorage.getItem('rol'));
     const tieneFoliosSuficientes = foliosUser > 0 || rolUsuario === 1 || rolUsuario === 2;
 
@@ -185,7 +179,27 @@ async function crearAltas(){
 
         await dispatch(userActions.update_users(payload));
       }
-      await dispatch(permisos_actions.create_permisos(formData));
+      Swal.fire({
+        title: "Confirmacion de Datos",
+        text: `El folio ingresado es ${folio}, por favor verfica si es un folio autorizado por tu proovedor, si es así aprieta "Es correcto!" y si no aprieta cancelar, escribe el folio correcto y presiona el boton generar QR nuevamente.`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Es correcto!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          dispatch(permisos_actions.create_permisos(data));
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Permiso creado, Para verlo dirigete a administrar permisos.',
+            showConfirmButton: false,
+            timer: 1500
+          });
+        }
+      });
+      
       
     } else {
       Swal.fire({
@@ -201,64 +215,99 @@ async function crearAltas(){
     console.log(error);
   }
 }
+const rol=localStorage.getItem('rol')
+const numbRol=parseInt(rol)
+
+
   return (
-    <div className='w-full h-auto bg-[url("https://www.frontconsulting.com/wp-content/uploads/2016/11/fondo_formulario3.jpg")] overflow-x-hidden overflow-y-hidden'>
+<div className='w-full h-auto bg-[url("https://www.frontconsulting.com/wp-content/uploads/2016/11/fondo_formulario3.jpg")] overflow-x-hidden overflow-y-hidden'>
 <div className='w-full flex justify-center items-center h-[5vh]  text-[2rem] text-white font-sans'><p>CREAR PERMISOS</p></div>
+{numbRol !== 1 && (
+  <div className='w-full flex justify-center text-white'>
+    {foliosUser > 0 ? (
+      <p>Te quedan {foliosUser} folios por usar</p>
+    ) : (
+      <p>Lo siento.No Te quedan más folios, Pídele a tu proveedor para seguir creando permisos</p>
+    )}
+  </div>
+)}
+
 <div className='w-full h-auto py-[2rem] '>
-<div className='w-full h-auto flex justify-center flex-col ml-[35rem] gap-[0.5rem]'>
+<div className='w-full h-auto flex justify-center flex-col lg:ml-[30rem] xl:ml-[30rem] 2xl:ml-[35rem]  ml-[1rem] gap-[0.5rem]'>
   <p className='text-[white] text-[1.2rem]'>Propietario</p>
-  <input className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] w-[30%]' type="text" name="" id="" />
+  <input ref={inputProp} onChange={captureProp} className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] lg:w-[30%] w-[90%]' type="text" name="" id="" />
 </div>
 {/**--------------------- */}
-<div className='w-full h-auto flex justify-center flex-col ml-[35rem] gap-[0.5rem]'>
+<div className='w-full h-auto flex justify-center flex-col lg:ml-[30rem] xl:ml-[30rem] 2xl:ml-[35rem] ml-[1rem] gap-[0.5rem]'>
   <p className='text-[white] text-[1.2rem]'>Delegación que Expide</p>
-  <input className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] w-[30%]' type="text" name="" id="" />
+  <input ref={inputDelegacion} onChange={captureDele}  className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] lg:w-[30%] w-[90%]' type="text" name="" id="" />
 </div>
 {/**--------------------- */}
-<div className='w-full h-auto flex justify-center flex-col ml-[35rem] gap-[0.5rem]'>
+<div className='w-full h-auto flex justify-center flex-col lg:ml-[30rem] xl:ml-[30rem] 2xl:ml-[35rem] ml-[1rem] gap-[0.5rem]'>
   <p className='text-[white] text-[1.2rem]'>Marca</p>
-  <input className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] w-[30%]' type="text" name="" id="" />
+  <input ref={inputMarca} onChange={captureMarca}  className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] lg:w-[30%] w-[90%]' type="text" name="" id="" />
 </div>
 {/**--------------------- */}
-<div className='w-full h-auto flex justify-center flex-col ml-[35rem] gap-[0.5rem]'>
+<div className='w-full h-auto flex justify-center flex-col lg:ml-[30rem] xl:ml-[30rem] 2xl:ml-[35rem] ml-[1rem] gap-[0.5rem]'>
   <p className='text-[white] text-[1.2rem]'>Sub-Marca</p>
-  <input className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] w-[30%]' type="text" name="" id="" />
+  <input ref={inputSubMarca} onChange={captureSubMarca}  className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] lg:w-[30%] w-[90%]' type="text" name="" id="" />
 </div>
 {/**--------------------- */}
-<div className='w-full h-auto flex justify-center flex-col ml-[35rem] gap-[0.5rem]'>
+<div className='w-full h-auto flex justify-center flex-col lg:ml-[30rem] xl:ml-[30rem] 2xl:ml-[35rem] ml-[1rem] gap-[0.5rem]'>
   <p className='text-[white] text-[1.2rem]'>Linea</p>
-  <input className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] w-[30%]' type="text" name="" id="" />
+  <input ref={inputLinea} onChange={captureLinea}  className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] lg:w-[30%] w-[90%]' type="text" name="" id="" />
 </div>
 {/**--------------------- */}
-<div className='w-full h-auto flex justify-center flex-col ml-[35rem] gap-[0.5rem]'>
+<div className='w-full h-auto flex justify-center flex-col lg:ml-[30rem] xl:ml-[30rem] 2xl:ml-[35rem] ml-[1rem] gap-[0.5rem]'>
   <p className='text-[white] text-[1.2rem]'>Modelo</p>
-  <input className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] w-[30%]' type="text" name="" id="" />
+  <input ref={inputModelo} onChange={captureModelo}  className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] lg:w-[30%] w-[90%]' type="text" name="" id="" />
 </div>
 {/**--------------------- */}
-<div className='w-full h-auto flex justify-center flex-col ml-[35rem] gap-[0.5rem]'>
+<div className='w-full h-auto flex justify-center flex-col lg:ml-[30rem] xl:ml-[30rem] 2xl:ml-[35rem] ml-[1rem] gap-[0.5rem]'>
   <p className='text-[white] text-[1.2rem]'>Capacidad</p>
-  <input className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] w-[30%]' type="text" name="" id="" />
+  <input ref={inputCapacidad} onChange={captureCapacidad}  className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] lg:w-[30%] w-[90%]' type="text" name="" id="" />
 </div>
-<div className='w-full h-auto flex justify-center flex-col ml-[35rem] gap-[0.5rem]'>
+<div className='w-full h-auto flex justify-center flex-col lg:ml-[30rem] xl:ml-[30rem] 2xl:ml-[35rem] ml-[1rem] gap-[0.5rem]'>
   <p className='text-[white] text-[1.2rem]'>N° de Serie</p>
-  <input className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] w-[30%]' type="text" name="" id="" />
+  <input ref={inputSerie} onChange={captureSerie}  className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] lg:w-[30%] w-[90%]' type="text" name="" id="" />
 </div>
 {/**--------------------- */}
-<div className='w-full h-auto flex justify-center flex-col ml-[35rem] gap-[0.5rem]'>
+<div className='w-full h-auto flex justify-center flex-col lg:ml-[30rem] xl:ml-[30rem] 2xl:ml-[35rem] ml-[1rem] gap-[0.5rem]'>
   <p className='text-[white] text-[1.2rem]'> N° de Motor</p>
-  <input className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] w-[30%]' type="text" name="" id="" />
+  <input ref={inputMotor} onChange={captureMotor}  className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] lg:w-[30%] w-[90%]' type="text" name="" id="" />
 </div>
 {/**--------------------- */}
-<div className='w-full h-auto flex justify-center flex-col ml-[35rem] gap-[0.5rem]'>
+<div className='w-full h-auto flex justify-center flex-col lg:ml-[30rem] xl:ml-[30rem] 2xl:ml-[35rem] ml-[1rem] gap-[0.5rem]'>
   <p className='text-[white] text-[1.2rem]'>Fecha de expedición</p>
-  <input className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] w-[30%]' type="text" name="" id="" />
+  <input value={expedicion} className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] lg:w-[30%] w-[90%]' type="text" name="" id="" />
 </div>
 {/**--------------------- */}
-<div className='w-full h-auto flex justify-center flex-col ml-[35rem] gap-[0.5rem]'>
+<div className='w-full h-auto flex justify-center flex-col lg:ml-[30rem] xl:ml-[30rem] 2xl:ml-[35rem] ml-[1rem] gap-[0.5rem]'>
   <p className='text-[white] text-[1.2rem]'>Fecha de vigencia</p>
-  <input className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] w-[30%]' type="text" name="" id="" />
+  <input value={vigencia} className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] lg:w-[30%] w-[90%]' type="text" name="" id="" />
+</div>
+<div className='w-full h-auto flex justify-center flex-col lg:ml-[30rem] xl:ml-[30rem] 2xl:ml-[35rem] ml-[1rem] gap-[0.5rem]'>
+  <p className='text-[white] text-[1.2rem]'>Folio Asignado</p>
+  <input onChange={captureFolio} ref={inputFolio} className='px-[0.5rem] rounded-[5px] border-solid border-[1px] border-[gray] lg:w-[30%] w-[90%]' type="number" name="" id="" placeholder='Escribe el Folio asignado' />
 </div>
 {/**--------------------- */}
+{folio && (
+  <div className='w-full h-auto flex justify-center flex-col lg:ml-[30rem] xl:ml-[30rem] 2xl:ml-[35rem] ml-[1rem] gap-[0.5rem]'>
+    <button onClick={() => generateQR(folio)} className='lg:w-[30%] w-[90%] bg-[gray] text-[white]'>
+      Generar QR
+    </button>
+    {loading ? (
+      <p>Cargando QR...</p>
+    ) : qr ? (
+      <div>
+        <QRCode size={80} value={`--PERMISO AUTENTICO-- Folio: ${folio}, Marca:${marca}, Linea:${linea}, Modelo:${modelo}, N°.Serie:${serie}, Fecha Vencimiento:${vigencia}`} />
+      </div>
+      
+    ) : null}
+    <button onClick={crearAltas} className='lg:w-[30%] w-[90%] rounded-[5px] text-white bg-[gray] py-[0.3rem]'>Crear Permiso</button>
+  </div>
+
+)}
 </div>
     </div>
     

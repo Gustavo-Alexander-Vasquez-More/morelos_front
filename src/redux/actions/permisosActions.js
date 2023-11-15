@@ -45,13 +45,7 @@ const read_AllPermisos = createAsyncThunk(
           try {
           const {data}=await axios.post('https://backmorelos-production.up.railway.app/api/permisos/create', datos)
           
-          Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: 'Permiso creado, Para verlo dirigete a administrar permisos.',
-            showConfirmButton: false,
-            timer: 1500
-          });
+         
           return data.response
           } catch (error) {
             Swal.fire({
