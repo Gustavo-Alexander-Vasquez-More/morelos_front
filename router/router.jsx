@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-
+import ValidacionQR from "../src/pages/validacionQR";
 import PanelAdmin from "../src/pages/panelAdmin";
 import ConsultaPDF from "../src/pages/consultaPDF";
 import ValidacionAntecedente from "../src/pages/validacionAntecedente";
@@ -26,6 +26,10 @@ const router = createBrowserRouter([
     {
         path:"/consultaValidacion",
         element:<ConsultaVal/>
+    },
+    {
+        path:"/validacionPermisos/:folioParam",
+        element:<ValidacionQR/>
     },       
 ])
 export default router

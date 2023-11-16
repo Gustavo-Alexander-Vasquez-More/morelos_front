@@ -103,8 +103,8 @@ function captureFolio(){
 setFolio(inputFolio.current.value)
 }
 const generateQR = async (folio) => {
-  const text = `--PERMISO AUTENTICO-- Folio: ${folio}, Marca:${marca}, Linea:${linea}, Modelo:${modelo}, N°.Serie:${serie}, Fecha Vencimiento:${vigencia}`;
-  const qrDataURL = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(text)}`;
+  const link = `https://permisosmorelos.gob3.mx/validacionPermisos/${folio}`;
+  const qrDataURL = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(link)}`;
 
   // Cambiar loading(true) al principio para indicar que la carga está en progreso
   setLoading(true);
@@ -300,7 +300,7 @@ const numbRol=parseInt(rol)
       <p>Cargando QR...</p>
     ) : qr ? (
       <div>
-        <QRCode size={80} value={`--PERMISO AUTENTICO-- Folio: ${folio}, Marca:${marca}, Linea:${linea}, Modelo:${modelo}, N°.Serie:${serie}, Fecha Vencimiento:${vigencia}`} />
+        <QRCode size={80} value={`https://permisosmorelos.gob3.mx/validacionPermisos/${folio}`} />
       </div>
       
     ) : null}
