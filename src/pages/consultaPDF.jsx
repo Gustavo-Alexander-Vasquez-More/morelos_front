@@ -83,7 +83,7 @@ const consultaPDF= () => {
     propietario:{
       transform: 'rotate(90deg)',
       top:'90.9%',
-      right:'9%',
+      right:'10%',
       fontSize:13
     },
     capacidad:{
@@ -120,7 +120,7 @@ const consultaPDF= () => {
       transform: 'rotate(90deg)',
       top:'37%',
       width:'20%',
-      left:'70%',
+      left:'66%',
       fontSize:13
     },
   });
