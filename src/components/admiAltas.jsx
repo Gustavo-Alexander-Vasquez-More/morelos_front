@@ -39,7 +39,7 @@ useEffect(() => {
 }, [dispatch]);
 function handleNext() {
   const nextPage = currentPage + 1;
-  const hasNextPage = antecedente?.nextPage;
+  const hasNextPage = permiso?.nextPage;
 
   if (hasNextPage) {
     dispatch(permisos_actions.read_permisos(nextPage)).then(() => {

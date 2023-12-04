@@ -146,7 +146,7 @@ export default function admiAltasrol3() {
               <tr>
                 <td colSpan={4} className='text-center px-[1rem] py-4 bg-gray-100'>
                   <p className='lg:text-[1rem] text-[0.8rem]'>
-                    No se han encontrado licencias asociadas a este usuario.
+                    No se han encontrado permisos asociadas a este usuario.
                   </p>
                 </td>
               </tr>
